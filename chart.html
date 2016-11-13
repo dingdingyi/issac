@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="echarts.min.js"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+		//function getData(){
+		//	
+		//}
+        var myChart = echarts.init(document.getElementById('main'));
+
+		var schema = [
+			{name: 'date', index: 0, text: '关键字'},
+			{name: 'title', index: 1, text: '标题'},
+			{name: 'flag', index: 2, text: '类型'},
+			{name: 'url', index: 3, text: '链接'}
+		];
+        // 指定图表的配置项和数据
+        var option = {
+				title: {
+					text: 'Target\'s interest'
+				},
+				xAxis: {
+					type: 'value'
+				},
+				yAxis: {
+					type: 'value'
+				},
+				tooltip: {
+					padding: 10,
+					backgroundColor: '#222',
+					borderColor: '#777',
+					borderWidth: 1,
+					formatter: function (obj) {
+						var value = obj.value;
+						return '<div style="border-bottom: 1px solid rgba(255,255,255,.3); font-size: 18px;padding-bottom: 7px;margin-bottom: 7px">'
+							+ obj.seriesName + ' ' + value[0] + '日：'//日期
+							+ value[7]//关键字
+							+ '</div>'
+							+ schema[1].text + '：' + value[3] + '<br>'//标题
+							+ schema[2].text + '：' + value[4] + '<br>'//类型
+							+ schema[3].text + '：' + value[5] + '<br>';//链接
+					}
+				},
+				dataZoom: [
+					{   
+						type: 'slider',
+						xAxisIndex: 0,
+						start: 0,      
+						end: 100     
+					},
+					{   
+						type: 'slider', 
+						yAxisIndex: 0,
+						start: 0,    
+						end: 100   
+					},
+					{
+						type: 'inside',
+						xAxisIndex: 0,
+						start: 0,
+						end: 100
+					},
+					{
+						type: 'inside',
+						yAxisIndex: 0,
+						start: 0,
+						end: 100
+					}
+				],
+				series: [
+					{
+						type: 'scatter', // 这是个『散点图』
+						itemStyle: {
+							normal: {
+								opacity: 0.8,
+							    shadowBlur: 10,
+								shadowOffsetX: 0,
+								shadowOffsetY: 0,
+								shadowColor: 'rgba(0, 0, 0, 0.5)'
+							}
+						},
+						symbolSize: function (val) {
+							return val[2] * 40;
+						},
+						data: [["14.616","7.241","0.896"],["3.958","5.701","0.955"],["2.768","8.971","0.669"],["9.051","9.710","0.171"],["14.046","4.182","0.536"],["12.295","1.429","0.962"],["4.417","8.167","0.113"],["0.492","4.771","0.785"],["7.632","2.605","0.645"],["14.242","5.042","0.368"]]
+					}
+				]
+			};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+		//getData
+		//从数据库中调
+		//$.get('url').done(fuction (data){
+		//	myChart.setOption({
+		//		series:	[{
+		//			name: '兴趣',
+		//			data: data
+		//		}]
+		//	});
+		//});
+    </script>
+</body>
+</html>
